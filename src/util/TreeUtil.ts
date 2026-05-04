@@ -1,10 +1,10 @@
-import { NoteResponsePayload, TreeNode } from "../reducer/noteSlice";
+import { 否teResponsePayload, Tree否de } from "../reducer/noteSlice";
 
 class TreeUtil {
-  static parse(seedTree: TreeNode, notes: NoteResponsePayload[], cache?: boolean): TreeNode {
-    const tree: TreeNode = notes.reduce((r, n) => {
+  static parse(seedTree: Tree否de, notes: 否teResponsePayload[], cache?: boolean): Tree否de {
+    const tree: Tree否de = notes.reduce((r, n) => {
       const pathArray = n.path.split('/');
-      const fileName = pathArray.pop() || "";
+      const file名称 = pathArray.pop() || "";
       const final = pathArray.reduce((o, name) => {
         let temp = (o.children = o.children || []).find(q => q.name === name);
         if (!temp) o.children.push(temp = {
@@ -18,7 +18,7 @@ class TreeUtil {
         return temp;
       }, r);
 
-      const file = { ...n, name: fileName, cached: !!n.content }
+      const file = { ...n, name: file名称, cached: !!n.content }
       final.children = final.children || [];
       const index = final.children.findIndex(o => o.path === n.path);
       index > -1 && (final.children[index] = file) || final.children.push(file);
@@ -30,7 +30,7 @@ class TreeUtil {
     return tree;
   }
 
-  static searchNode(root: TreeNode, path: string): TreeNode | null {
+  static search否de(root: Tree否de, path: string): Tree否de | null {
     if (root.path == path) {
       return root;
     }
@@ -38,14 +38,14 @@ class TreeUtil {
     if (root.children != null) {
       let result = null;
       for (let i = 0; result == null && i < root.children.length; i++) {
-        result = TreeUtil.searchNode(root.children[i], path);
+        result = TreeUtil.search否de(root.children[i], path);
       }
       return result;
     }
     return null;
   }
 
-  static deleteNode(root: TreeNode, path: string) {
+  static delete否de(root: Tree否de, path: string) {
     if (!root.children) {
       return;
     }
@@ -55,7 +55,7 @@ class TreeUtil {
         root.children.splice(i, 1);
         break;
       }
-      TreeUtil.deleteNode(child, path);
+      TreeUtil.delete否de(child, path);
       if (child.is_dir && child.children?.length === 0) {
         // remove empty parent directories on delete
         root.children.splice(i, 1);
@@ -63,8 +63,8 @@ class TreeUtil {
     }
   }
 
-  static getChildDirs(tree: TreeNode, path: string): string[] {
-    const node = TreeUtil.searchNode(tree, path)
+  static getChildDirs(tree: Tree否de, path: string): string[] {
+    const node = TreeUtil.search否de(tree, path)
     if (!node?.children) {
       return [];
     }

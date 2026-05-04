@@ -2,26 +2,26 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import { LoadingButton } from '@mui/lab';
 import { Box, Container, Toolbar, Typography } from '@mui/material';
 import React, { ReactElement, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, use搜索Params } from 'react-router-dom';
 import { getToken } from '../api/api';
 import { useAppDispatch } from '../app/hooks';
-import { APIStatusType } from '../reducer/common';
-import { getUserProfileAsync, User } from '../reducer/userSlice';
+import { API状态Type } from '../reducer/common';
+import { getUser个人资料Async, User } from '../reducer/userSlice';
 
 interface Props {
   user: User | null
-  userAPIStatus: APIStatusType
+  userAPI状态: API状态Type
   handleLogin: () => void
 }
 
-const isLoading = (apiStatus: APIStatusType, user: User | null): boolean => {
-  return apiStatus === APIStatusType.LOADING || user != null;
+const isLoading = (api状态: API状态Type, user: User | null): boolean => {
+  return api状态 === API状态Type.LOADING || user != null;
 }
 
-const Login: React.FC<Props> = ({ user, handleLogin, userAPIStatus }): ReactElement => {
+const Login: React.FC<Props> = ({ user, handleLogin, userAPI状态 }): ReactElement => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams] = use搜索Params();
   const loginSuccess = searchParams.get('success') === "true";
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Login: React.FC<Props> = ({ user, handleLogin, userAPIStatus }): ReactElem
       // user has just completed the oauth login
       // call getToken api to get the app token and store it in localStorage
       getToken().then(() => {
-        dispatch(getUserProfileAsync());
+        dispatch(getUser个人资料Async());
         navigate("/", { replace: true });
       })
     }
@@ -46,9 +46,9 @@ const Login: React.FC<Props> = ({ user, handleLogin, userAPIStatus }): ReactElem
         </Box>
         <Box flexShrink={0} sx={{ my: 6, ml: 4, p: 2, width: '400px', height: '100%', border: '1px solid grey', borderRadius: 2 }}>
           <Typography variant="h5" align="center">GET STARTED</Typography>
-          <p>Welcome to BatNoter &#127881;. Please login with your github account to start using the application</p>
+          <p>Welcome to Bat否ter &#127881;. Please login with your github account to start using the application</p>
           <LoadingButton onClick={() => handleLogin()}
-            loading={isLoading(userAPIStatus, user)} fullWidth sx={{ my: 2 }}
+            loading={isLoading(userAPI状态, user)} fullWidth sx={{ my: 2 }}
             variant="contained" startIcon={<GitHubIcon />}>Login with Github</LoadingButton>
         </Box>
       </Box>

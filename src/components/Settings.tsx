@@ -8,7 +8,7 @@ interface Props {
   user: User | null
 }
 
-const Settings: React.FC<Props> = ({ user }): ReactElement => {
+const 设置: React.FC<Props> = ({ user }): ReactElement => {
   const [openRepoSelectDialog, setOpenRepoSelectDialog] = React.useState(false);
 
   return (
@@ -21,8 +21,8 @@ const Settings: React.FC<Props> = ({ user }): ReactElement => {
         <Grid container direction="column" marginY={2}>
           <Typography m={0} variant="h5" gutterBottom component="div"> {user?.name || user?.email} </Typography>
           <Typography color="text.secondary" variant="body1" gutterBottom component="div"> {user?.location} </Typography>
-          {user?.default_repo?.default_branch && <Typography color="text.secondary" m={0} variant="h6" gutterBottom component="div">Notes Repository: {user?.default_repo?.name} (<SourceBranch sx={{ verticalAlign: 'middle' }} fontSize='inherit' /> {user?.default_repo?.default_branch})</Typography>}
-          <Button onClick={() => setOpenRepoSelectDialog(true)}>Change Notes Repository</Button>
+          {user?.default_repo?.default_branch && <Typography color="text.secondary" m={0} variant="h6" gutterBottom component="div">否tes Repository: {user?.default_repo?.name} (<SourceBranch sx={{ verticalAlign: 'middle' }} fontSize='inherit' /> {user?.default_repo?.default_branch})</Typography>}
+          <Button onClick={() => setOpenRepoSelectDialog(true)}>Change 否tes Repository</Button>
           <RepoSelectDialog open={openRepoSelectDialog} setOpen={setOpenRepoSelectDialog} defaultRepo={user?.default_repo?.name} />
         </Grid>
       </Grid>
@@ -30,4 +30,4 @@ const Settings: React.FC<Props> = ({ user }): ReactElement => {
   )
 }
 
-export default Settings;
+export default 设置;

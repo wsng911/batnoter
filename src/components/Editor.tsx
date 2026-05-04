@@ -1,23 +1,23 @@
 
-import SaveIcon from '@mui/icons-material/Save';
+import 保存Icon from '@mui/icons-material/保存';
 import { LoadingButton } from '@mui/lab';
 import { Alert, Autocomplete, Breadcrumbs, Button, CircularProgress, Container, Link, styled, TextField, Theme } from '@mui/material';
 import { unwrapResult } from '@reduxjs/toolkit';
 import React, { FormEvent, ReactElement, useEffect, useState } from 'react';
-import MDEditor from 'react-markdown-editor-lite';
+import MD编辑or from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, use搜索Params } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { APIStatus, APIStatusType } from '../reducer/common';
-import { getNoteAsync, resetStatus, saveNoteAsync, selectNoteAPIStatus, selectNotesTree } from '../reducer/noteSlice';
+import { API状态, API状态Type } from '../reducer/common';
+import { get否teAsync, reset状态, save否teAsync, select否teAPI状态, select否tesTree } from '../reducer/noteSlice';
 import TreeUtil from '../util/TreeUtil';
-import { appendPath, getDecodedPath, getFilenameFromTitle, getSanitizedErrorMessage, getTitleFromFilename, splitPath, URL_ISSUES } from '../util/util';
+import { appendPath, getDecodedPath, getFilenameFrom标题, getSanitizedErrorMessage, get标题FromFilename, splitPath, URL_ISSUES } from '../util/util';
 import CustomReactMarkdown from './lib/CustomReactMarkdown';
 
 const VALID_DIR_PATH_REGEX = /^((?!\/)([a-zA-Z0-9-]([/]|[^\S\r\n])?)*)([a-zA-Z0-9-])$/gm;
 const VALID_FILENAME_REGEX = /^([a-zA-Z0-9-]|[^\S\r\n])+(\.md)$/gm;
 
-const StyledMDEditor = styled(MDEditor)(({ theme }: { theme: Theme }) => ({
+const StyledMD编辑or = styled(MD编辑or)(({ theme }: { theme: Theme }) => ({
   "&.rc-md-editor.batnoter-md-editor": {
     margin: "16px 0",
     height: 375,
@@ -58,36 +58,36 @@ const StyledMDEditor = styled(MDEditor)(({ theme }: { theme: Theme }) => ({
   }
 }));
 
-const isLoading = (apiStatus: APIStatus): boolean => {
-  const { getNoteAsync, saveNoteAsync } = apiStatus;
-  return getNoteAsync === APIStatusType.LOADING || saveNoteAsync === APIStatusType.LOADING;
+const isLoading = (api状态: API状态): boolean => {
+  const { get否teAsync, save否teAsync } = api状态;
+  return get否teAsync === API状态Type.LOADING || save否teAsync === API状态Type.LOADING;
 }
 
-const isGetNoteLoading = (apiStatus: APIStatus): boolean => {
-  const { getNoteAsync } = apiStatus;
-  return getNoteAsync === APIStatusType.LOADING;
+const isGet否teLoading = (api状态: API状态): boolean => {
+  const { get否teAsync } = api状态;
+  return get否teAsync === API状态Type.LOADING;
 }
 
-const isFailed = (apiStatus: APIStatus): boolean => {
-  const { getNoteAsync, saveNoteAsync } = apiStatus;
-  return getNoteAsync === APIStatusType.FAIL || saveNoteAsync === APIStatusType.FAIL;
+const isFailed = (api状态: API状态): boolean => {
+  const { get否teAsync, save否teAsync } = api状态;
+  return get否teAsync === API状态Type.FAIL || save否teAsync === API状态Type.FAIL;
 }
 
-const Editor: React.FC = (): ReactElement => {
+const 编辑or: React.FC = (): ReactElement => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { pathname } = useLocation();
-  const [searchParams] = useSearchParams();
+  const [searchParams] = use搜索Params();
   const editMode = pathname.startsWith('/edit');
   const path = getDecodedPath(searchParams.get('path'));
-  const tree = useAppSelector(selectNotesTree);
-  const apiStatus = useAppSelector(selectNoteAPIStatus);
+  const tree = useAppSelector(select否tesTree);
+  const api状态 = useAppSelector(select否teAPI状态);
   const [errorMessage, setErrorMessage] = React.useState("");
 
   const [sha, setSHA] = useState('');
-  const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState(false);
+  const [title, set标题] = useState('');
+  const [titleError, set标题Error] = useState(false);
   const [content, setContent] = useState('');
   const [contentError, setContentError] = useState(false);
   const [endDir, setEndDir] = useState('');
@@ -97,32 +97,32 @@ const Editor: React.FC = (): ReactElement => {
 
   useEffect(() => {
     // This should be the first useEffect hook. Declare other useEffect hooks below this one.
-    dispatch(resetStatus());
+    dispatch(reset状态());
   }, [path])
 
   useEffect(() => {
-    const treeNode = TreeUtil.searchNode(tree, path);
+    const tree否de = TreeUtil.search否de(tree, path);
     const dirPathArray = splitPath(path);
     editMode && dirPathArray.pop(); // remove the filename from path
     setDirPathArray(dirPathArray);
     setPathAutoCompleteOptions(TreeUtil.getChildDirs(tree, path));
 
-    if (treeNode == null || treeNode.is_dir) {
+    if (tree否de == null || tree否de.is_dir) {
       return;
     }
-    dispatch(getNoteAsync(treeNode.path)).then(unwrapResult)
+    dispatch(get否teAsync(tree否de.path)).then(unwrapResult)
       .catch(err => setErrorMessage(getSanitizedErrorMessage(err)));
 
-    setSHA(treeNode?.sha || '');
-    setTitle(getTitleFromFilename(treeNode.name));
-    setContent(treeNode?.content || '');
+    setSHA(tree否de?.sha || '');
+    set标题(get标题FromFilename(tree否de.name));
+    setContent(tree否de?.content || '');
   }, [tree, path, editMode])
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handle提交 = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDirPathError(false);
-    setTitleError(false);
+    set标题Error(false);
     setContentError(false);
 
     const autoSelectedDirPath = dirPathArray.join('/');
@@ -132,9 +132,9 @@ const Editor: React.FC = (): ReactElement => {
       return;
     }
 
-    const filename = getFilenameFromTitle(title);
+    const filename = getFilenameFrom标题(title);
     if (!filename.match(VALID_FILENAME_REGEX)) {
-      setTitleError(true);
+      set标题Error(true);
       return;
     }
 
@@ -144,16 +144,16 @@ const Editor: React.FC = (): ReactElement => {
     }
 
     const fullPath = appendPath(dirPath, filename);
-    await dispatch(saveNoteAsync({ path: fullPath, content: content, sha: sha }))
+    await dispatch(save否teAsync({ path: fullPath, content: content, sha: sha }))
       .then(unwrapResult).then(() => navigate(`/?path=${encodeURIComponent(dirPath)}`))
       .catch(err => setErrorMessage(getSanitizedErrorMessage(err)));
   }
 
   return (
     <Container maxWidth="lg">
-      {isGetNoteLoading(apiStatus) ? <CircularProgress sx={{ position: "relative", top: "50%", left: "50%" }} /> :
-        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-          {isFailed(apiStatus) && errorMessage &&
+      {isGet否teLoading(api状态) ? <CircularProgress sx={{ position: "relative", top: "50%", left: "50%" }} /> :
+        <form noValidate autoComplete="off" on提交={handle提交}>
+          {isFailed(api状态) && errorMessage &&
             <Alert severity="error" sx={{ width: "100%" }}>
               {errorMessage} <span>please try again or <Link href={URL_ISSUES} target="_blank" rel="noopener">create an issue</Link></span>
             </Alert>}
@@ -197,17 +197,17 @@ const Editor: React.FC = (): ReactElement => {
           <TextField sx={{ my: 2, display: "block" }}
             helperText="Only alphanumeric characters, space and hyphen (-) are allowed."
             value={title} disabled={editMode}
-            onChange={(e) => { setTitleError(false); setTitle(e.target.value) }} label="Note Title"
+            onChange={(e) => { set标题Error(false); set标题(e.target.value) }} label="否te 标题"
             variant="outlined" fullWidth required error={titleError}
           />
 
-          <StyledMDEditor view={{ menu: true, md: true, html: false }} canView={{ menu: true, md: true, html: true, fullScreen: false, hideMenu: false, both: true }}
+          <StyledMD编辑or view={{ menu: true, md: true, html: false }} canView={{ menu: true, md: true, html: true, fullScreen: false, hideMenu: false, both: true }}
             value={content}
             renderHTML={(text: string) => <CustomReactMarkdown>{text}</CustomReactMarkdown>}
-            placeholder="Note Content*" className={"batnoter-md-editor " + (contentError ? "error" : "")}
+            placeholder="否te Content*" class名称={"batnoter-md-editor " + (contentError ? "error" : "")}
             onChange={({ text }: { text: string }) => { setContentError(false); setContent(text) }} />
 
-          <LoadingButton loading={isLoading(apiStatus)} type="submit" variant="contained" startIcon={<SaveIcon />} sx={{ float: 'right' }}>SAVE</LoadingButton>
+          <LoadingButton loading={isLoading(api状态)} type="submit" variant="contained" startIcon={<保存Icon />} sx={{ float: 'right' }}>SAVE</LoadingButton>
           <Button onClick={() => navigate('/')} variant="outlined" sx={{ float: 'right', mx: 1 }} >CANCEL</Button>
         </form>
       }
@@ -215,4 +215,4 @@ const Editor: React.FC = (): ReactElement => {
   )
 }
 
-export default Editor;
+export default 编辑or;

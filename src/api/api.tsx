@@ -1,4 +1,4 @@
-import { NotePage, NoteResponsePayload } from "../reducer/noteSlice";
+import { 否tePage, 否teResponsePayload } from "../reducer/noteSlice";
 import { Repo } from "../reducer/preferenceSlice";
 import { User } from "../reducer/userSlice";
 
@@ -22,7 +22,7 @@ export const getToken = (): Promise<undefined> => {
   })
 }
 
-export const getUserProfile = (): Promise<User> => {
+export const getUser个人资料 = (): Promise<User> => {
   // there is no point in calling profile api without a token, since it will fail anyway due to missing token
   // so in case of page reload etc we call this endpoint only when there is token in local-storage, which implies
   // that user has already logged-in
@@ -43,8 +43,8 @@ export const getUserRepos = (): Promise<Repo[]> => {
   })
 }
 
-export const autoSetupRepo = (repoName: string): Promise<undefined> => {
-  return fetch(`${API_URL}/user/preference/auto/repo?repoName=${repoName}`, {
+export const autoSetupRepo = (repo名称: string): Promise<undefined> => {
+  return fetch(`${API_URL}/user/preference/auto/repo?repo名称=${repo名称}`, {
     method: "POST",
     headers: getHeaders()
   }).then(async (res) => {
@@ -66,7 +66,7 @@ export const saveDefaultRepo = (defaultRepo: Repo): Promise<undefined> => {
   })
 }
 
-export const searchNotes = (page?: number, path?: string, query?: string): Promise<NotePage> => {
+export const search否tes = (page?: number, path?: string, query?: string): Promise<否tePage> => {
   return fetch(`${API_URL}/search/notes?page=` + (page || 1) + (path ? `path=${path}` : "") + (query ? `query=${query}` : ""),
     { headers: getHeaders() }).then(async (res) => {
       if (!res.ok) {
@@ -76,7 +76,7 @@ export const searchNotes = (page?: number, path?: string, query?: string): Promi
     })
 }
 
-export const getNotesTree = (): Promise<NoteResponsePayload[]> => {
+export const get否tesTree = (): Promise<否teResponsePayload[]> => {
   return fetch(`${API_URL}/tree/notes`, {
     headers: getHeaders()
   }).then(async (res) => {
@@ -87,7 +87,7 @@ export const getNotesTree = (): Promise<NoteResponsePayload[]> => {
   })
 }
 
-export const getAllNotes = (path: string): Promise<NoteResponsePayload[]> => {
+export const getAll否tes = (path: string): Promise<否teResponsePayload[]> => {
   return fetch(`${API_URL}/notes` + (path && "?path=" + encodeURIComponent(path)), {
     headers: getHeaders()
   }).then(async (res) => {
@@ -98,7 +98,7 @@ export const getAllNotes = (path: string): Promise<NoteResponsePayload[]> => {
   })
 }
 
-export const getNote = (path: string): Promise<NoteResponsePayload> => {
+export const get否te = (path: string): Promise<否teResponsePayload> => {
   return fetch(`${API_URL}/notes/` + encodeURIComponent(path), {
     headers: getHeaders()
   }).then(async (res) => {
@@ -109,7 +109,7 @@ export const getNote = (path: string): Promise<NoteResponsePayload> => {
   })
 }
 
-export const saveNote = (path: string, content: string, sha?: string): Promise<NoteResponsePayload> => {
+export const save否te = (path: string, content: string, sha?: string): Promise<否teResponsePayload> => {
   return fetch(`${API_URL}/notes/` + encodeURIComponent(path), {
     method: "POST",
     body: JSON.stringify({ sha: sha, content: content }),
@@ -122,7 +122,7 @@ export const saveNote = (path: string, content: string, sha?: string): Promise<N
   })
 }
 
-export const deleteNote = (path: string, sha?: string): Promise<undefined> => {
+export const delete否te = (path: string, sha?: string): Promise<undefined> => {
   return fetch(`${API_URL}/notes/` + encodeURIComponent(path), {
     method: "DELETE",
     body: JSON.stringify({ sha: sha }),

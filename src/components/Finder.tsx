@@ -3,74 +3,74 @@ import { Alert, CircularProgress, Container, Link } from '@mui/material';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { useModal } from 'mui-modal-provider';
 import React, { ReactElement, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, use搜索Params } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { APIStatus, APIStatusType } from '../reducer/common';
-import { deleteNoteAsync, getNotesAsync, resetStatus, selectNoteAPIStatus, selectNotesTree, TreeNode } from '../reducer/noteSlice';
+import { API状态, API状态Type } from '../reducer/common';
+import { delete否teAsync, get否tesAsync, reset状态, select否teAPI状态, select否tesTree, Tree否de } from '../reducer/noteSlice';
 import TreeUtil from '../util/TreeUtil';
-import { confirmDeleteNote, getDecodedPath, getSanitizedErrorMessage, URL_ISSUES } from '../util/util';
-import NoteCard from './NoteCard';
+import { confirm删除否te, getDecodedPath, getSanitizedErrorMessage, URL_ISSUES } from '../util/util';
+import 否teCard from './否teCard';
 
-const isGetNotesLoading = (apiStatus: APIStatus): boolean => {
-  const { getNotesAsync } = apiStatus;
-  return getNotesAsync === APIStatusType.LOADING;
+const isGet否tesLoading = (api状态: API状态): boolean => {
+  const { get否tesAsync } = api状态;
+  return get否tesAsync === API状态Type.LOADING;
 }
 
-const isGetNotesFailed = (apiStatus: APIStatus): boolean => {
-  const { getNotesAsync } = apiStatus;
-  return getNotesAsync === APIStatusType.FAIL;
+const isGet否tesFailed = (api状态: API状态): boolean => {
+  const { get否tesAsync } = api状态;
+  return get否tesAsync === API状态Type.FAIL;
 }
 
 const Finder = (): ReactElement => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { showModal } = useModal();
-  const tree = useAppSelector(selectNotesTree);
-  const apiStatus = useAppSelector(selectNoteAPIStatus);
-  const [searchParams] = useSearchParams();
+  const tree = useAppSelector(select否tesTree);
+  const api状态 = useAppSelector(select否teAPI状态);
+  const [searchParams] = use搜索Params();
   const path = getDecodedPath(searchParams.get('path'));
   const [errorMessage, setErrorMessage] = React.useState("");
 
   useEffect(() => {
     // This should be the first useEffect hook. Declare other useEffect hooks below this one.
-    dispatch(resetStatus());
+    dispatch(reset状态());
   }, [path])
 
   useEffect(() => {
-    dispatch(getNotesAsync(path)).then(unwrapResult)
+    dispatch(get否tesAsync(path)).then(unwrapResult)
       .catch(err => setErrorMessage(getSanitizedErrorMessage(err)));
   }, [tree, path])
 
-  const handleDelete = (note: TreeNode) => {
-    confirmDeleteNote(showModal, () => dispatch(deleteNoteAsync(note as TreeNode)));
+  const handle删除 = (note: Tree否de) => {
+    confirm删除否te(showModal, () => dispatch(delete否teAsync(note as Tree否de)));
   }
 
-  const handleView = (note: TreeNode) => {
+  const handleView = (note: Tree否de) => {
     navigate(`/view?path=${encodeURIComponent(note.path)}`);
   }
 
-  const handleEdit = (note: TreeNode) => {
+  const handle编辑 = (note: Tree否de) => {
     navigate(`/edit?path=${encodeURIComponent(note.path)}`);
   }
 
-  const getChildren = (path: string): TreeNode[] | undefined => {
-    const node = TreeUtil.searchNode(tree, path);
+  const getChildren = (path: string): Tree否de[] | undefined => {
+    const node = TreeUtil.search否de(tree, path);
     if (node?.cached) {
       return node.children;
     }
   }
 
-  const notes = getChildren(path) || [] as TreeNode[];
+  const notes = getChildren(path) || [] as Tree否de[];
 
   return (
     <Container>
-      {isGetNotesFailed(apiStatus) && errorMessage && <Alert severity="error" sx={{ width: "100%", mb: 2 }}>{errorMessage} <span>please try again or <Link href={URL_ISSUES} target="_blank" rel="noopener">create an issue</Link></span></Alert>}
+      {isGet否tesFailed(api状态) && errorMessage && <Alert severity="error" sx={{ width: "100%", mb: 2 }}>{errorMessage} <span>please try again or <Link href={URL_ISSUES} target="_blank" rel="noopener">create an issue</Link></span></Alert>}
 
       <Masonry columns={{ xs: 1, md: 3, xl: 4 }} spacing={2}>
-        {isGetNotesLoading(apiStatus) ? <CircularProgress sx={{ position: "relative", top: "50%", left: "50%" }} /> :
+        {isGet否tesLoading(api状态) ? <CircularProgress sx={{ position: "relative", top: "50%", left: "50%" }} /> :
 
           notes.filter(n => !n.is_dir).map(note => (
-            <div key={note.path}> <NoteCard note={note} handleView={handleView} handleEdit={handleEdit} handleDelete={handleDelete} /> </div>
+            <div key={note.path}> <否teCard note={note} handleView={handleView} handle编辑={handle编辑} handle删除={handle删除} /> </div>
           ))}
       </Masonry>
     </Container>

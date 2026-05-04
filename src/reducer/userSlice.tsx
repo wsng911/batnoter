@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getUserProfile } from "../api/api";
+import { getUser个人资料 } from "../api/api";
 import { RootState } from "../app/store";
-import { APIStatusType } from "./common";
+import { API状态Type } from "./common";
 
 export interface User {
   email: string
@@ -17,18 +17,18 @@ export interface User {
 
 interface UserState {
   value: User | null
-  status: APIStatusType
+  status: API状态Type
 }
 
 const initialState: UserState = {
   value: null,
-  status: APIStatusType.IDLE
+  status: API状态Type.IDLE
 }
 
-export const getUserProfileAsync = createAsyncThunk(
+export const getUser个人资料Async = createAsyncThunk(
   'user/fetchUser',
   async () => {
-    const response = await getUserProfile();
+    const response = await getUser个人资料();
     // returned value becomes the `fulfilled` action payload
     return response;
   }
@@ -39,31 +39,31 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     userLoading: (state) => {
-      state.status = APIStatusType.LOADING;
+      state.status = API状态Type.LOADING;
     },
-    userLogout: (state) => {
+    user退出登录: (state) => {
       state.value = null;
       localStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getUserProfileAsync.pending, (state) => {
-        state.status = APIStatusType.LOADING;
+      .addCase(getUser个人资料Async.pending, (state) => {
+        state.status = API状态Type.LOADING;
       })
-      .addCase(getUserProfileAsync.fulfilled, (state, action) => {
-        state.status = APIStatusType.IDLE;
+      .addCase(getUser个人资料Async.fulfilled, (state, action) => {
+        state.status = API状态Type.IDLE;
         state.value = action.payload as User;
       })
-      .addCase(getUserProfileAsync.rejected, (state) => {
-        state.status = APIStatusType.FAIL;
+      .addCase(getUser个人资料Async.rejected, (state) => {
+        state.status = API状态Type.FAIL;
         state.value = null;
         localStorage.removeItem("token")
       });
   },
 })
 
-export const { userLoading, userLogout } = userSlice.actions;
+export const { userLoading, user退出登录 } = userSlice.actions;
 export const selectUser = (state: RootState): User | null => state.user.value;
-export const selectUserAPIStatus = (state: RootState): APIStatusType => state.user.status;
+export const selectUserAPI状态 = (state: RootState): API状态Type => state.user.status;
 export default userSlice.reducer;

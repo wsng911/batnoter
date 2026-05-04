@@ -1,6 +1,6 @@
 import { SerializedError } from "@reduxjs/toolkit";
 import { ShowFn } from "mui-modal-provider/dist/types";
-import ConfirmDialog from "../components/ConfirmDialog";
+import 确认Dialog from "../components/确认Dialog";
 
 export const URL_REPO = "https://github.com/batnoter/batnoter"
 export const URL_FAQ = `${URL_REPO}/wiki/FAQ`
@@ -14,11 +14,11 @@ const EXT = '.md';
 const BACKEND_ERROR_CODES = ['internal_server_error', 'validation_failed'];
 const UNKNOWN_ERR_MSG = "Something went wrong. Please try again!"
 
-export function getTitleFromFilename(filename: string): string {
+export function get标题FromFilename(filename: string): string {
   return filename.replace(REPLACE_EXT_REGEX, '');
 }
 
-export function getFilenameFromTitle(title: string): string {
+export function getFilenameFrom标题(title: string): string {
   return title + EXT;
 }
 
@@ -56,10 +56,10 @@ export function splitPath(path: string): string[] {
   return path.split('/').filter(p => p);
 }
 
-export function confirmDeleteNote(showModal: ShowFn, onConfirm: () => void) {
-  showModal(ConfirmDialog, {
+export function confirm删除否te(showModal: ShowFn, on确认: () => void) {
+  showModal(确认Dialog, {
     desc: 'Are you sure you want to delete this note?',
-    onConfirm: onConfirm
+    on确认: on确认
   });
 }
 

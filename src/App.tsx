@@ -24,7 +24,7 @@ const App: React.FC = () => {
   });
 
   return (
-    <div className="App">
+    <div class名称="App">
       <BrowserRouter basename={process.env.REACT_APP_BASENAME}>
         <ThemeProvider theme={theme}>
           <ModalProvider>

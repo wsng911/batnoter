@@ -1,20 +1,20 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, Card, CardActions, CardContent, CardHeader, IconButton } from "@mui/material";
+import 删除Icon from "@mui/icons-material/删除";
+import { Button, Card, Card操作, CardContent, CardHeader, IconButton } from "@mui/material";
 import React, { ReactElement } from 'react';
-import { TreeNode } from "../reducer/noteSlice";
-import { getTitleFromFilename } from "../util/util";
+import { Tree否de } from "../reducer/noteSlice";
+import { get标题FromFilename } from "../util/util";
 import CustomReactMarkdown from "./lib/CustomReactMarkdown";
 
 interface Props {
-  note: TreeNode
-  handleView: (note: TreeNode) => void
-  handleEdit: (note: TreeNode) => void
-  handleDelete: (note: TreeNode) => void
+  note: Tree否de
+  handleView: (note: Tree否de) => void
+  handle编辑: (note: Tree否de) => void
+  handle删除: (note: Tree否de) => void
 }
 
 const MAX_CARD_TEXT_LENGTH = 300;
 
-const NoteCard: React.FC<Props> = ({ note, handleView, handleEdit, handleDelete }): ReactElement => {
+const 否teCard: React.FC<Props> = ({ note, handleView, handle编辑, handle删除 }): ReactElement => {
   const getCardText = (text?: string): string => {
     if (text == null) return '';
     return text.substring(0, MAX_CARD_TEXT_LENGTH) + (text.length > MAX_CARD_TEXT_LENGTH ? '...' : '');
@@ -23,18 +23,18 @@ const NoteCard: React.FC<Props> = ({ note, handleView, handleEdit, handleDelete 
     <Card elevation={1}>
       <CardHeader action={
         <>
-          <IconButton sx={{ "&:hover": { color: "red" } }} onClick={() => handleDelete(note)}> <DeleteIcon /> </IconButton>
+          <IconButton sx={{ "&:hover": { color: "red" } }} onClick={() => handle删除(note)}> <删除Icon /> </IconButton>
         </>
-      } title={getTitleFromFilename(note.name)} />
+      } title={get标题FromFilename(note.name)} />
       <CardContent>
-        <CustomReactMarkdown className='custom-html-style'>{getCardText(note.content)}</CustomReactMarkdown>
+        <CustomReactMarkdown class名称='custom-html-style'>{getCardText(note.content)}</CustomReactMarkdown>
       </CardContent>
-      <CardActions>
+      <Card操作>
         <Button onClick={() => handleView(note)} size="small">VIEW</Button>
-        <Button onClick={() => handleEdit(note)} size="small">EDIT</Button>
-      </CardActions>
+        <Button onClick={() => handle编辑(note)} size="small">EDIT</Button>
+      </Card操作>
     </Card>
   )
 }
 
-export default NoteCard;
+export default 否teCard;

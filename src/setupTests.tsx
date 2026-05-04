@@ -6,7 +6,7 @@ import '@testing-library/jest-dom/extend-expect';
 import React from "react";
 
 
-jest.mock("react-markdown", () => (props: { children: React.ReactNode }) =>
+jest.mock("react-markdown", () => (props: { children: React.React否de }) =>
   jest.fn(() => <>{props.children}</>),
 );
 

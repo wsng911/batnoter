@@ -1,16 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { deleteNote, getAllNotes, getNote, getNotesTree, saveNote, searchNotes } from "../api/api";
+import { delete否te, getAll否tes, get否te, get否tesTree, save否te, search否tes } from "../api/api";
 import { RootState } from "../app/store";
 import TreeUtil from "../util/TreeUtil";
-import { APIStatus, APIStatusType } from "./common";
+import { API状态, API状态Type } from "./common";
 
-export interface SearchParams {
+export interface 搜索Params {
   page?: number
   path?: string
   query?: string
 }
 
-export interface TreeNode {
+export interface Tree否de {
   name: string
   sha?: string
   path: string
@@ -18,10 +18,10 @@ export interface TreeNode {
   size?: number
   is_dir: boolean
   cached: boolean
-  children?: TreeNode[]
+  children?: Tree否de[]
 }
 
-export interface NoteResponsePayload {
+export interface 否teResponsePayload {
   sha: string
   path: string
   content: string
@@ -29,19 +29,19 @@ export interface NoteResponsePayload {
   is_dir: boolean
 }
 
-export interface NotePage {
+export interface 否tePage {
   total: number
-  notes: NoteResponsePayload[]
+  notes: 否teResponsePayload[]
 }
 
-interface NoteState {
-  page: NotePage
-  tree: TreeNode
-  current: NoteResponsePayload | null
-  status: APIStatus
+interface 否teState {
+  page: 否tePage
+  tree: Tree否de
+  current: 否teResponsePayload | null
+  status: API状态
 }
 
-const initialState: NoteState = {
+const initialState: 否teState = {
   page: {
     total: 1,
     notes: []
@@ -54,64 +54,64 @@ const initialState: NoteState = {
   },
   current: null,
   status: {
-    searchNotesAsync: APIStatusType.IDLE,
-    getNotesTreeAsync: APIStatusType.IDLE,
-    getNotesAsync: APIStatusType.IDLE,
-    getNoteAsync: APIStatusType.IDLE,
-    saveNoteAsync: APIStatusType.IDLE,
-    deleteNoteAsync: APIStatusType.IDLE,
+    search否tesAsync: API状态Type.IDLE,
+    get否tesTreeAsync: API状态Type.IDLE,
+    get否tesAsync: API状态Type.IDLE,
+    get否teAsync: API状态Type.IDLE,
+    save否teAsync: API状态Type.IDLE,
+    delete否teAsync: API状态Type.IDLE,
   }
 }
 
-export const searchNotesAsync = createAsyncThunk(
-  'note/searchNotes',
-  async (params?: SearchParams) => {
-    const response = await searchNotes(params?.page, params?.path, params?.query);
+export const search否tesAsync = createAsyncThunk(
+  'note/search否tes',
+  async (params?: 搜索Params) => {
+    const response = await search否tes(params?.page, params?.path, params?.query);
     return response;
   }
 );
 
-export const getNotesTreeAsync = createAsyncThunk(
-  'note/fetchNotesTree',
+export const get否tesTreeAsync = createAsyncThunk(
+  'note/fetch否tesTree',
   async () => {
-    const response = await getNotesTree() as NoteResponsePayload[];
+    const response = await get否tesTree() as 否teResponsePayload[];
     return response;
   }
 );
 
-export const getNotesAsync = createAsyncThunk(
-  'note/fetchNotes',
+export const get否tesAsync = createAsyncThunk(
+  'note/fetch否tes',
   async (path: string) => {
-    const response = await getAllNotes(path) as NoteResponsePayload[];
+    const response = await getAll否tes(path) as 否teResponsePayload[];
     return response;
   }, {
   condition: (path, { getState }) => {
     const state = getState() as RootState;
-    const node = TreeUtil.searchNode(state.notes.tree, path);
+    const node = TreeUtil.search否de(state.notes.tree, path);
     const hasFiles = !!(node?.children && node.children.find(o => !o.is_dir));
     return !node?.cached && hasFiles;
   }
 }
 );
 
-export const getNoteAsync = createAsyncThunk(
-  'note/fetchNote',
+export const get否teAsync = createAsyncThunk(
+  'note/fetch否te',
   async (path: string) => {
-    const response = await getNote(path) as NoteResponsePayload;
+    const response = await get否te(path) as 否teResponsePayload;
     return response;
   }, {
   condition: (path, { getState }) => {
     const state = getState() as RootState;
-    const node = TreeUtil.searchNode(state.notes.tree, path);
+    const node = TreeUtil.search否de(state.notes.tree, path);
     return !node?.cached;
   }
 }
 );
 
-export const saveNoteAsync = createAsyncThunk(
-  'note/saveNote',
+export const save否teAsync = createAsyncThunk(
+  'note/save否te',
   async ({ path, content, sha }: { path: string, content: string, sha?: string }) => {
-    const response = await saveNote(path, content, sha) as NoteResponsePayload;
+    const response = await save否te(path, content, sha) as 否teResponsePayload;
     return {
       ...response,
       content: content
@@ -119,10 +119,10 @@ export const saveNoteAsync = createAsyncThunk(
   }
 );
 
-export const deleteNoteAsync = createAsyncThunk(
-  'note/deleteNote',
-  async (note: TreeNode) => {
-    await deleteNote(note.path, note.sha);
+export const delete否teAsync = createAsyncThunk(
+  'note/delete否te',
+  async (note: Tree否de) => {
+    await delete否te(note.path, note.sha);
     return note;
   }
 );
@@ -131,97 +131,97 @@ export const noteSlice = createSlice({
   name: "notes",
   initialState,
   reducers: {
-    resetStatus: (state) => { state.status = initialState.status; }
+    reset状态: (state) => { state.status = initialState.status; }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(searchNotesAsync.pending, (state) => {
-        state.status.searchNotesAsync = APIStatusType.LOADING;
+      .addCase(search否tesAsync.pending, (state) => {
+        state.status.search否tesAsync = API状态Type.LOADING;
       })
-      .addCase(searchNotesAsync.fulfilled, (state, action) => {
-        state.page = action.payload as NotePage;
+      .addCase(search否tesAsync.fulfilled, (state, action) => {
+        state.page = action.payload as 否tePage;
         const tree = TreeUtil.parse(state.tree, state.page.notes, true);
         state.tree = tree;
-        state.status.searchNotesAsync = APIStatusType.IDLE;
+        state.status.search否tesAsync = API状态Type.IDLE;
       })
-      .addCase(searchNotesAsync.rejected, (state) => {
+      .addCase(search否tesAsync.rejected, (state) => {
         state.page = initialState.page;
-        state.status.searchNotesAsync = APIStatusType.FAIL;
+        state.status.search否tesAsync = API状态Type.FAIL;
       })
 
-      .addCase(getNotesTreeAsync.pending, (state) => {
-        state.status.getNotesTreeAsync = APIStatusType.LOADING;
+      .addCase(get否tesTreeAsync.pending, (state) => {
+        state.status.get否tesTreeAsync = API状态Type.LOADING;
       })
-      .addCase(getNotesTreeAsync.fulfilled, (state, action) => {
+      .addCase(get否tesTreeAsync.fulfilled, (state, action) => {
         state.page.notes = action.payload;
         const tree = TreeUtil.parse(initialState.tree, state.page.notes, false);
         state.tree = tree;
-        state.status.getNotesTreeAsync = APIStatusType.IDLE;
+        state.status.get否tesTreeAsync = API状态Type.IDLE;
       })
-      .addCase(getNotesTreeAsync.rejected, (state) => {
+      .addCase(get否tesTreeAsync.rejected, (state) => {
         state.page.notes = initialState.page.notes;
-        state.status.getNotesTreeAsync = APIStatusType.FAIL;
+        state.status.get否tesTreeAsync = API状态Type.FAIL;
       })
 
-      .addCase(getNotesAsync.pending, (state) => {
-        state.status.getNotesAsync = APIStatusType.LOADING;
+      .addCase(get否tesAsync.pending, (state) => {
+        state.status.get否tesAsync = API状态Type.LOADING;
       })
-      .addCase(getNotesAsync.fulfilled, (state, action) => {
+      .addCase(get否tesAsync.fulfilled, (state, action) => {
         state.page.notes = action.payload;
         const tree = TreeUtil.parse(state.tree, state.page.notes, true);
         state.tree = tree;
-        state.status.getNotesAsync = APIStatusType.IDLE;
+        state.status.get否tesAsync = API状态Type.IDLE;
       })
-      .addCase(getNotesAsync.rejected, (state) => {
+      .addCase(get否tesAsync.rejected, (state) => {
         state.page.notes = initialState.page.notes;
-        state.status.getNotesAsync = APIStatusType.FAIL;
+        state.status.get否tesAsync = API状态Type.FAIL;
       })
 
-      .addCase(getNoteAsync.pending, (state) => {
+      .addCase(get否teAsync.pending, (state) => {
         state.current = null
-        state.status.getNoteAsync = APIStatusType.LOADING;
+        state.status.get否teAsync = API状态Type.LOADING;
       })
-      .addCase(getNoteAsync.fulfilled, (state, action) => {
+      .addCase(get否teAsync.fulfilled, (state, action) => {
         state.current = action.payload;
         const tree = TreeUtil.parse(state.tree, [action.payload]);
         state.tree = tree;
-        state.status.getNoteAsync = APIStatusType.IDLE;
+        state.status.get否teAsync = API状态Type.IDLE;
       })
-      .addCase(getNoteAsync.rejected, (state) => {
-        state.status.getNoteAsync = APIStatusType.FAIL;
+      .addCase(get否teAsync.rejected, (state) => {
+        state.status.get否teAsync = API状态Type.FAIL;
       })
 
-      .addCase(saveNoteAsync.pending, (state) => {
-        state.status.saveNoteAsync = APIStatusType.LOADING;
+      .addCase(save否teAsync.pending, (state) => {
+        state.status.save否teAsync = API状态Type.LOADING;
       })
-      .addCase(saveNoteAsync.fulfilled, (state, action) => {
+      .addCase(save否teAsync.fulfilled, (state, action) => {
         state.page.notes = state.page.notes.filter(n => n.sha !== action.payload.sha)
         state.page.notes.push(action.payload)
         const tree = TreeUtil.parse(state.tree, [action.payload]);
         state.tree = tree;
-        state.status.saveNoteAsync = APIStatusType.IDLE;
+        state.status.save否teAsync = API状态Type.IDLE;
       })
-      .addCase(saveNoteAsync.rejected, (state) => {
-        state.status.saveNoteAsync = APIStatusType.FAIL;
+      .addCase(save否teAsync.rejected, (state) => {
+        state.status.save否teAsync = API状态Type.FAIL;
       })
 
-      .addCase(deleteNoteAsync.pending, (state) => {
-        state.status.deleteNoteAsync = APIStatusType.LOADING;
+      .addCase(delete否teAsync.pending, (state) => {
+        state.status.delete否teAsync = API状态Type.LOADING;
       })
-      .addCase(deleteNoteAsync.fulfilled, (state, action) => {
+      .addCase(delete否teAsync.fulfilled, (state, action) => {
         state.page.notes = state.page.notes.filter(n => n.path !== action.payload.path)
-        TreeUtil.deleteNode(state.tree, action.payload.path)
-        state.status.deleteNoteAsync = APIStatusType.IDLE;
+        TreeUtil.delete否de(state.tree, action.payload.path)
+        state.status.delete否teAsync = API状态Type.IDLE;
       })
-      .addCase(deleteNoteAsync.rejected, (state) => {
-        state.status.deleteNoteAsync = APIStatusType.FAIL;
+      .addCase(delete否teAsync.rejected, (state) => {
+        state.status.delete否teAsync = API状态Type.FAIL;
       });
   },
 })
 
-export const { resetStatus } = noteSlice.actions;
-export const selectCurrentNote = (state: RootState): NoteResponsePayload | null => state.notes.current;
-export const selectNotesPage = (state: RootState): NotePage => state.notes.page;
-export const selectNotesTree = (state: RootState): TreeNode => state.notes.tree;
-export const selectNoteAPIStatus = (state: RootState): APIStatus => state.notes.status;
+export const { reset状态 } = noteSlice.actions;
+export const selectCurrent否te = (state: RootState): 否teResponsePayload | null => state.notes.current;
+export const select否tesPage = (state: RootState): 否tePage => state.notes.page;
+export const select否tesTree = (state: RootState): Tree否de => state.notes.tree;
+export const select否teAPI状态 = (state: RootState): API状态 => state.notes.status;
 export default noteSlice.reducer;

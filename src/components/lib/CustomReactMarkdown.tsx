@@ -11,7 +11,7 @@ const StyledReactMarkdown = styled(ReactMarkdown)(
     color: theme.palette.text.secondary,
     pre: {
       display: "flex",
-      backgroundColor: theme.palette.action.disabledBackground,
+      backgroundColor: theme.palette.action.disabled返回ground,
       svg: {
         opacity: 0.5,
         "&:hover": {
@@ -24,17 +24,17 @@ const StyledReactMarkdown = styled(ReactMarkdown)(
       },
     },
     "code": {
-      backgroundColor: theme.palette.action.disabledBackground,
+      backgroundColor: theme.palette.action.disabled返回ground,
       borderRadius: 2,
       padding: 4
     },
     "blockquote": {
       color: theme.palette.mode === 'light' ? theme.palette.text.primary : theme.palette.text.secondary,
-      borderColor: theme.palette.action.disabledBackground
+      borderColor: theme.palette.action.disabled返回ground
     },
     "table": {
       "thead > tr > th": {
-        backgroundColor: theme.palette.action.disabledBackground,
+        backgroundColor: theme.palette.action.disabled返回ground,
       },
       "&, thead > tr > th, tbody > tr > td": {
         borderColor: theme.palette.divider,
@@ -46,10 +46,10 @@ const CustomReactMarkdown: React.FC<ReactMarkdownOptions> = (props: ReactMarkdow
   return (
     <StyledReactMarkdown {...props}
       components={{
-        code({ inline, className, children, ...props }) {
+        code({ inline, class名称, children, ...props }) {
           return (
             <>
-              <code className={className} {...props}>{children}</code>
+              <code class名称={class名称} {...props}>{children}</code>
               {!inline && <ContentCopyOutlinedIcon style={{ right: 5, position: "absolute", cursor: 'pointer' }}
                 onClick={() => { navigator.clipboard.writeText(String(children)) }} />}
             </>

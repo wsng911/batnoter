@@ -1,24 +1,24 @@
 
-import { Button, Dialog, DialogActions, DialogContent, DialogProps, DialogTitle } from '@mui/material';
+import { Button, Dialog, Dialog操作, DialogContent, DialogProps, Dialog标题 } from '@mui/material';
 import React from 'react';
 
 type Props = DialogProps & {
   desc: string
-  onConfirm: () => void
+  on确认: () => void
 }
 
-const ConfirmDialog: React.FC<Props> = (props: Props) => {
-  const { desc, onConfirm, ...otherProps } = props;
+const 确认Dialog: React.FC<Props> = (props: Props) => {
+  const { desc, on确认, ...otherProps } = props;
   return (
     <Dialog {...otherProps}>
-      <DialogTitle id="confirm-dialog">Please Confirm</DialogTitle>
+      <Dialog标题 id="confirm-dialog">Please 确认</Dialog标题>
       <DialogContent>{desc}</DialogContent>
-      <DialogActions>
-        <Button variant="outlined" onClick={(e) => otherProps.onClose?.(e, "backdropClick")}>CANCEL</Button>
-        <Button variant="contained" onClick={(e) => { onConfirm(); otherProps.onClose?.(e, "backdropClick") }}>YES</Button>
-      </DialogActions>
+      <Dialog操作>
+        <Button variant="outlined" onClick={(e) => otherProps.on关闭?.(e, "backdropClick")}>CANCEL</Button>
+        <Button variant="contained" onClick={(e) => { on确认(); otherProps.on关闭?.(e, "backdropClick") }}>YES</Button>
+      </Dialog操作>
     </Dialog>
   );
 };
 
-export default ConfirmDialog;
+export default 确认Dialog;

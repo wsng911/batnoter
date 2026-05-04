@@ -22,7 +22,7 @@ const isLocalhost = Boolean(
 
 type Config = {
   onSuccess?: (registration: ServiceWorkerRegistration) => void;
-  onUpdate?: (registration: ServiceWorkerRegistration) => void;
+  on更新?: (registration: ServiceWorkerRegistration) => void;
 };
 
 export function register(config?: Config) {
@@ -43,7 +43,7 @@ export function register(config?: Config) {
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
 
-        // Add some additional logging to localhost, pointing developers to the
+        // 添加 some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
           console.log(
@@ -75,13 +75,13 @@ function registerValidSW(swUrl: string, config?: Config) {
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
               console.log(
-                'New content is available and will be used when all ' +
+                '新建 content is available and will be used when all ' +
                   'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
               );
 
               // Execute callback
-              if (config && config.onUpdate) {
-                config.onUpdate(registration);
+              if (config && config.on更新) {
+                config.on更新(registration);
               }
             } else {
               // At this point, everything has been precached.
@@ -115,7 +115,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
         response.status === 404 ||
         (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
-        // No service worker found. Probably a different app. Reload the page.
+        // 否 service worker found. Probably a different app. Reload the page.
         navigator.serviceWorker.ready.then((registration) => {
           registration.unregister().then(() => {
             window.location.reload();
@@ -128,7 +128,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
     })
     .catch(() => {
       console.log(
-        'No internet connection found. App is running in offline mode.'
+        '否 internet connection found. App is running in offline mode.'
       );
     });
 }

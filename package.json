@@ -1,5 +1,5 @@
 {
-  "name": "ui",
+  "name": "batnoter-zh",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -60,5 +60,6 @@
     "eslint": "^8.11.0",
     "eslint-plugin-react": "^7.29.4",
     "source-map-explorer": "^2.5.2"
-  }
+  },
+  "description": "基于 GitHub 存储的 Markdown 笔记应用"
 }

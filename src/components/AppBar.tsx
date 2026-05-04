@@ -13,16 +13,16 @@ import React, { ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { RootState } from '../app/store';
-import { APIStatusType } from '../reducer/common';
+import { API状态Type } from '../reducer/common';
 import { setThemeMode } from '../reducer/preferenceSlice';
 import { User } from '../reducer/userSlice';
 import { URL_FAQ, URL_GITHUB, URL_ISSUES, URL_SPONSOR, URL_TWITTER_HANDLE } from '../util/util';
 
 interface Props {
   user: User | null
-  userAPIStatus: APIStatusType
+  userAPI状态: API状态Type
   handleLogin: () => void
-  handleLogout: () => void
+  handle退出登录: () => void
   onDrawerToggle: () => void
 }
 
@@ -43,11 +43,11 @@ const AppBarLink = <D extends React.ElementType = LinkTypeMap["defaultComponent"
     {children}
   </Link>
 
-const isLoading = (apiStatus: APIStatusType): boolean => {
-  return apiStatus === APIStatusType.LOADING;
+const isLoading = (api状态: API状态Type): boolean => {
+  return api状态 === API状态Type.LOADING;
 }
 
-const AppBar: React.FC<Props> = ({ user, userAPIStatus, handleLogin, handleLogout, onDrawerToggle }): ReactElement => {
+const AppBar: React.FC<Props> = ({ user, userAPI状态, handleLogin, handle退出登录, onDrawerToggle }): ReactElement => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const dispatch = useAppDispatch();
@@ -58,7 +58,7 @@ const AppBar: React.FC<Props> = ({ user, userAPIStatus, handleLogin, handleLogou
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handle关闭 = () => {
     setAnchorEl(null);
   };
 
@@ -93,16 +93,16 @@ const AppBar: React.FC<Props> = ({ user, userAPIStatus, handleLogin, handleLogou
 
         <Box sx={{ ml: 1 }}>
           {user == null ?
-            (isLoading(userAPIStatus) ? <CircularProgress color="inherit" /> :
+            (isLoading(userAPI状态) ? <CircularProgress color="inherit" /> :
               <Button color="inherit" endIcon={<LoginIcon />} onClick={() => handleLogin()}>Login</Button>)
             :
             <>
               <Avatar onClick={handleMenu} alt={user.name} src={user.avatar_url} sx={{ cursor: "pointer" }} />
               <Menu autoFocus={false} sx={{ mt: '5px' }} id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{
                 vertical: 'bottom', horizontal: 'right'
-              }} transformOrigin={{ vertical: 'top', horizontal: 'right', }} open={Boolean(anchorEl)} onClose={handleClose}>
-                <MenuItem component={NavLink} to="/settings" onClick={handleClose}>Setting</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              }} transformOrigin={{ vertical: 'top', horizontal: 'right', }} open={Boolean(anchorEl)} on关闭={handle关闭}>
+                <MenuItem component={NavLink} to="/settings" onClick={handle关闭}>Setting</MenuItem>
+                <MenuItem onClick={handle退出登录}>退出登录</MenuItem>
               </Menu>
             </>
           }
